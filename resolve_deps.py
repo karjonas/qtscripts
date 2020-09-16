@@ -22,9 +22,13 @@ while folders:
 
     # Verify commit is new enough
     if not sha == None:
+        subprocess.check_output(["git", "remote", "update", "origin"], cwd=dir)
         curr_sha = subprocess.check_output(["git", "rev-parse", "--verify", "HEAD"], cwd=dir).decode("utf-8").strip()
-        print('At ' + curr_sha)
-        print('Needs ' + sha)
+        curr_msg = subprocess.check_output(["git", "show", "-s", "--format=%s", curr_sha], cwd=dir).decode("utf-8").strip()
+        need_msg = subprocess.check_output(["git", "show", "-s", "--format=%s", sha], cwd=dir).decode("utf-8").strip()
+
+        print('At ' + curr_sha + ', ' + curr_msg)
+        print('Needs ' + sha + ', ' + need_msg)
         is_ok = subprocess.call(["git", "merge-base", "--is-ancestor", curr_sha, sha], cwd=dir) == 0
         if is_ok:
             print('Satisfied')
