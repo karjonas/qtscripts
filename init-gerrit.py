@@ -8,7 +8,7 @@ gerrit_name = "ssh://jokarlss@codereview.qt-project.org:29418/qt/"+repo_name
 print("Found repo name " + repo_name)
 
 # add gerrit remote
-print("Removing gerrit remote")
-subprocess.check_output(["git", "remote", "remove", "gerrit"])
+print("Trying to remove gerrit remote")
+subprocess.call(['git', 'remote', 'remove', 'gerrit'], stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT)
 print("Adding remote " + gerrit_name)
 subprocess.check_output(["git", "remote", "add", "gerrit", "ssh://jokarlss@codereview.qt-project.org:29418/qt/"+repo_name])
